@@ -1,0 +1,39 @@
+FIRST STEP: IN COLAB CHANGE RUNTIME ENVIRONMENT TYPE TO R
+
+
+1) BASE R
+# Sample data
+categories <- c("A", "B", "C", "D")
+values <- c(23, 45, 12, 36)
+
+# Bar plot
+barplot(values, names.arg=categories, col="skyblue", 
+        main="Base R Bar Plot", xlab="Category", ylab="Value")
+
+2) GGPLOT2
+# Load ggplot2
+library(ggplot2)
+
+# Sample data
+df <- data.frame(Category = c("A", "B", "C", "D"),
+                 Value = c(23, 45, 12, 36))
+
+# Bar plot
+ggplot(df, aes(x=Category, y=Value, fill=Category)) +
+  geom_bar(stat="identity") +
+  labs(title="ggplot2 Bar Plot", x="Category", y="Value") +
+  theme_minimal()
+
+3) LATTICE
+# Load lattice
+library(lattice)
+
+# Data
+df <- data.frame(Category = c("A", "B", "C", "D"),
+                 Value = c(23, 45, 12, 36))
+
+# Bar plot
+barchart(Value ~ Category, data=df,
+         col="orchid", main="Lattice Bar Plot",
+         xlab="Category", ylab="Value")
+4) 
