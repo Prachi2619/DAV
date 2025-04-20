@@ -1,0 +1,41 @@
+# Step 1: Import necessary libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score
+
+# Step 2: Load dataset (SMS Spam Collection from UCI)
+url = "https://raw.githubusercontent.com/justmarkham/pycon-2016-tutorial/master/data/sms.tsv"
+data = pd.read_table(url, header=None, names=['label', 'message'])
+
+# Step 3: Preprocessing - convert labels to numbers
+data['label_num'] = data.label.map({'ham': 0, 'spam': 1})
+
+# Step 4: Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(data.message, data.label_num, test_size=0.2, random_state=42)
+
+# Step 5: Convert text into feature vectors
+vectorizer = CountVectorizer()
+X_train_vec = vectorizer.fit_transform(X_train)
+X_test_vec = vectorizer.transform(X_test)
+
+# Step 6: Train a Naive Bayes classifier
+model = MultinomialNB()
+model.fit(X_train_vec, y_train)
+
+# Step 7: Predict and evaluate
+y_pred = model.predict(X_test_vec)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.4f}")
+
+# Step 8: Try your own message
+your_message = input("Enter a message to check if it's spam: ")
+your_message_vec = vectorizer.transform([your_message])
+pred = model.predict(your_message_vec)
+print("Prediction:", "Spam 🚫" if pred[0] else "Ham ✅")
+
+
+
+WHAT TO TYPE IN OUTPUT:
+Congratulations! You won a free iPhone. Click here to claim.
