@@ -1,0 +1,79 @@
+# Install necessary libraries
+!pip install pandas matplotlib seaborn
+
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the data
+df = pd.read_csv("Rainfall_data.csv")
+
+# Clean column names
+df.columns = df.columns.str.strip()
+
+# Combine Year, Month, Day into a single datetime column
+df['Date'] = pd.to_datetime(df[['Year', 'Month', 'Day']])
+
+# Set 'Date' as index
+df.set_index('Date', inplace=True)
+
+# Check the first few rows
+print(df.head())
+
+# Basic statistics
+print("\nSummary Statistics:")
+print(df['Precipitation'].describe())
+
+# -----------------------------
+# Plot the full time series
+plt.figure(figsize=(12, 5))
+plt.plot(df['Precipitation'], label='Precipitation', color='blue')
+plt.title('Precipitation Over Time')
+plt.xlabel('Date')
+plt.ylabel('Precipitation (mm)')
+plt.grid()
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# -----------------------------
+# Monthly average precipitation
+monthly_avg = df['Precipitation'].resample('M').mean()
+
+plt.figure(figsize=(12, 5))
+plt.plot(monthly_avg, label='Monthly Average', color='orange')
+plt.title('Monthly Average Precipitation')
+plt.xlabel('Date')
+plt.ylabel('Precipitation (mm)')
+plt.grid()
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# -----------------------------
+# Yearly total precipitation
+yearly_total = df['Precipitation'].resample('Y').sum()
+
+plt.figure(figsize=(10, 5))
+yearly_total.plot(kind='bar', color='green')
+plt.title('Yearly Total Precipitation')
+plt.xlabel('Year')
+plt.ylabel('Total Precipitation (mm)')
+plt.grid()
+plt.tight_layout()
+plt.show()
+
+# -----------------------------
+# Seasonality: Average precipitation by month (across years)
+df['Month'] = df.index.month
+monthly_seasonality = df.groupby('Month')['Precipitation'].mean()
+
+plt.figure(figsize=(8, 4))
+sns.barplot(x=monthly_seasonality.index, y=monthly_seasonality.values, palette='coolwarm')
+plt.title('Average Monthly Precipitation (Seasonality)')
+plt.xlabel('Month')
+plt.ylabel('Avg Precipitation (mm)')
+plt.grid(axis='y')
+plt.tight_layout()
+plt.show()
