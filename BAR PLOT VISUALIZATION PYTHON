@@ -1,0 +1,65 @@
+1) MATPLOTLIB
+import matplotlib.pyplot as plt
+
+# Sample data
+categories = ['A', 'B', 'C', 'D']
+values = [23, 45, 12, 36]
+
+# Create bar plot
+plt.bar(categories, values, color='skyblue')
+plt.title('Matplotlib Bar Plot')
+plt.xlabel('Category')
+plt.ylabel('Value')
+plt.show()
+
+
+2) SEABORN
+import seaborn as sns
+import pandas as pd
+
+# Create DataFrame
+df = pd.DataFrame({'Category': ['A', 'B', 'C', 'D'], 'Value': [23, 45, 12, 36]})
+
+# Bar plot using seaborn
+sns.barplot(x='Category', y='Value', data=df, palette='pastel')
+plt.title('Seaborn Bar Plot')
+plt.show()
+
+
+3) PLOTLY
+import plotly.express as px
+
+# Create DataFrame
+df = pd.DataFrame({'Category': ['A', 'B', 'C', 'D'], 'Value': [23, 45, 12, 36]})
+
+# Bar plot using plotly
+fig = px.bar(df, x='Category', y='Value', title='Plotly Bar Plot', color='Category')
+fig.show()
+
+4) PANDAS 
+import pandas as pd
+
+# Create Series or DataFrame
+data = pd.Series([23, 45, 12, 36], index=['A', 'B', 'C', 'D'])
+
+# Bar plot using pandas
+data.plot(kind='bar', title='Pandas Bar Plot', color='lightgreen')
+plt.xlabel('Category')
+plt.ylabel('Value')
+plt.show()
+
+5)ALTAIR
+import altair as alt
+import pandas as pd
+
+# Data
+df = pd.DataFrame({'Category': ['A', 'B', 'C', 'D'], 'Value': [23, 45, 12, 36]})
+
+# Bar plot using Altair
+chart = alt.Chart(df).mark_bar().encode(
+    x='Category',
+    y='Value',
+    color='Category'
+).properties(title='Altair Bar Plot')
+
+chart.show()
